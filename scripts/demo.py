@@ -82,12 +82,13 @@ def main():
 
     events = json.loads((ROOT / "samples/security-events.json").read_text(encoding="utf-8"))
     for event in events:
-        event["@timestamp"] = datetime.now(timezone.utc).isoformat()
+        event["@timestamp"] = datetime.now(timezone.utc).isoformat(timespec="milliseconds")
         def send(event=event):
             request(LS, event)
             return True
         wait("Send " + event["event"]["id"], send)
     ids = [event["event"]["id"] for event in events]
+    expected_times = {event["event"]["id"]: datetime.fromisoformat(event["@timestamp"]) for event in events}
     def ingested():
         request(ES + "/soc-lab/_refresh", {}, "POST")
         result = request(ES + "/soc-lab/_search", {
@@ -95,6 +96,11 @@ def main():
         hits = result["hits"]["hits"]
         if {hit["_source"]["event"]["id"] for hit in hits} != set(ids):
             return False
+        for hit in hits:
+            source = hit["_source"]
+            indexed_time = datetime.fromisoformat(source["@timestamp"].replace("Z", "+00:00"))
+            if indexed_time != expected_times[source["event"]["id"]]:
+                return False
         tagged = {hit["_source"]["event"]["id"]: hit["_source"].get("tags", [])
                   for hit in hits}
         if any("authentication_failure" not in tagged[event_id]
