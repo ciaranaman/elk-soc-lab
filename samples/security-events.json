@@ -1,0 +1,129 @@
+[
+  {
+    "event": {
+      "id": "auth-failure-1",
+      "category": "authentication",
+      "action": "logon",
+      "outcome": "failure"
+    },
+    "user": {
+      "name": "lab-admin"
+    },
+    "source": {
+      "ip": "192.0.2.25"
+    },
+    "host": {
+      "name": "lab-workstation"
+    },
+    "message": "Synthetic failed login for triage practice"
+  },
+  {
+    "event": {
+      "id": "auth-failure-2",
+      "category": "authentication",
+      "action": "logon",
+      "outcome": "failure"
+    },
+    "user": {
+      "name": "lab-admin"
+    },
+    "source": {
+      "ip": "192.0.2.25"
+    },
+    "host": {
+      "name": "lab-workstation"
+    },
+    "message": "Synthetic failed login for triage practice"
+  },
+  {
+    "event": {
+      "id": "auth-failure-3",
+      "category": "authentication",
+      "action": "logon",
+      "outcome": "failure"
+    },
+    "user": {
+      "name": "lab-admin"
+    },
+    "source": {
+      "ip": "192.0.2.25"
+    },
+    "host": {
+      "name": "lab-workstation"
+    },
+    "message": "Synthetic failed login for triage practice"
+  },
+  {
+    "event": {
+      "id": "auth-failure-4",
+      "category": "authentication",
+      "action": "logon",
+      "outcome": "failure"
+    },
+    "user": {
+      "name": "lab-admin"
+    },
+    "source": {
+      "ip": "192.0.2.25"
+    },
+    "host": {
+      "name": "lab-workstation"
+    },
+    "message": "Synthetic failed login for triage practice"
+  },
+  {
+    "event": {
+      "id": "auth-failure-5",
+      "category": "authentication",
+      "action": "logon",
+      "outcome": "failure"
+    },
+    "user": {
+      "name": "lab-admin"
+    },
+    "source": {
+      "ip": "192.0.2.25"
+    },
+    "host": {
+      "name": "lab-workstation"
+    },
+    "message": "Synthetic failed login for triage practice"
+  },
+  {
+    "event": {
+      "id": "auth-success-1",
+      "category": "authentication",
+      "action": "logon",
+      "outcome": "success"
+    },
+    "user": {
+      "name": "lab-admin"
+    },
+    "source": {
+      "ip": "192.0.2.25"
+    },
+    "host": {
+      "name": "lab-workstation"
+    },
+    "message": "Synthetic successful login after five failures"
+  },
+  {
+    "event": {
+      "id": "process-1",
+      "category": "process",
+      "action": "start",
+      "outcome": "success"
+    },
+    "user": {
+      "name": "lab-admin"
+    },
+    "host": {
+      "name": "lab-workstation"
+    },
+    "process": {
+      "name": "powershell.exe",
+      "command_line": "powershell.exe -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACcATABhAGIAJwA="
+    },
+    "message": "Synthetic encoded PowerShell command; ingestion never executes it"
+  }
+]
