@@ -1,0 +1,49 @@
+name: elk-soc-lab
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION:-9.5.5}
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+    ports:
+      - "127.0.0.1:${ES_PORT:-9200}:9200"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    mem_limit: 2g
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS 'http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=5s' >/dev/null"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 30s
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:${STACK_VERSION:-9.5.5}
+    environment:
+      LS_JAVA_OPTS: "-Xms512m -Xmx512m"
+    ports:
+      - "127.0.0.1:${LOGSTASH_PORT:-8080}:8080"
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+    mem_limit: 1g
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:${STACK_VERSION:-9.5.5}
+    environment:
+      ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
+      XPACK_SECURITY_ENABLED: "false"
+      TELEMETRY_ENABLED: "false"
+    ports:
+      - "127.0.0.1:${KIBANA_PORT:-5601}:5601"
+    mem_limit: 2g
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+volumes:
+  esdata:
